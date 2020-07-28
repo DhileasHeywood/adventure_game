@@ -81,23 +81,26 @@ class EntryRoom(Place):
                 """))
 
             # Not sure if this function is going to work or not, but I want to go back to the start of the function.
-            self.enter()
+            return "entry_room"
 
 
         elif "chest" in action:
             print(dedent("""
-            You walk towards the chest. You try to open it, but the closing mechanism is rusty and stiff. It's 
-            proving tough to open. You struggle for a few minutes, but eventually, you feel the latch give, and the
-            chest opens up. You look inside. You see a key, and a rusty sword. You take the key and the sword. It might 
-            be rusty, but you feel safer knowing that you have some way to protect yourself. Who knows what might reside
-            within these walls...
-            \nYou walk up to the door. It's locked, but there is a keyhole. You think it might fit the key from the 
-            chest. You put the key in the hole and turn. You hear a click. You open the door and walk forward. 
+            You walk towards the chest. 
+            You try to open it, but the closing mechanism is rusty and stiff. It's proving tough to open. 
+            You struggle for a few minutes, but eventually, you feel the latch give, and the chest opens up. You look inside. 
+            You see a key, and a rusty sword. You take the key and the sword. 
+            It might be rusty, but you feel safer knowing that you have some way to protect yourself. 
+            Who knows what might reside within these walls...
+            
+            You walk up to the door. It's locked, but there is a keyhole. You think it might fit the key from the chest. 
+            You put the key in the hole and turn. You hear a click. You open the door and walk forward. 
             """))
 
             return "finished"
         else:
             print("Input not recognised")
+            return "entry_room"
 
 class RiddleRoom(Place):
 
