@@ -1,4 +1,6 @@
 from random import randint
+from textwrap import dedent
+
 
 class Place:
 
@@ -23,11 +25,11 @@ class Engine:
         # current_place will be equal to self.place_map with the opening_place() method applied. This will be written later.
         # What it will do is run the place class with the key "place_map"
         current_place = self.place_map.opening_place()
-        # last_place will be the Finished() place class. What happens when you win!
-        last_place = self.place_map.next_place("finished")
+        # final_place will be the Finished() place class. What happens when you win!
+        final_place = self.place_map.next_place("finished")
 
-        # Here we're setting up the game loop. This means that when you've not won, the game will keep running whichever room you're in.
-        while current_place != last_place:
+        # Here we're setting up the game loop. This means that when you've not won or died, the game will keep running whichever room you're in.
+        while current_place != final_place:
             next_place_name = current_place.enter()
             current_place = self.place_map.next_place(next_place_name)
 
@@ -57,13 +59,45 @@ class Death(Place):
 
         if answer == "yes":
             # I need to figure out how to restart the game, but I'll put it here.
+            return "entry_room"
+
         else:
             exit(1)
 
-class Entry_room(Place):
+class EntryRoom(Place):
 
     def enter(self):
-        pass
+        print(dedent("""
+        You wake up in a room. You're all alone.
+        The room is almost empty, with just the chair you're sitting on, and a chest in the corner of the room.
+        You see a door directly in front of you. What do you do?
+        """))
+
+        action = input("> ")
+
+        if "door" in action:
+            print(dedent("""
+                You walk up to the door. It's locked. If only there were a key...
+                """))
+
+            # Not sure if this function is going to work or not, but I want to go back to the start of the function.
+            self.enter()
+
+
+        elif "chest" in action:
+            print(dedent("""
+            You walk towards the chest. You try to open it, but the closing mechanism is rusty and stiff. It's 
+            proving tough to open. You struggle for a few minutes, but eventually, you feel the latch give, and the
+            chest opens up. You look inside. You see a key, and a rusty sword. You take the key and the sword. It might 
+            be rusty, but you feel safer knowing that you have some way to protect yourself. Who knows what might reside
+            within these walls...
+            \nYou walk up to the door. It's locked, but there is a keyhole. You think it might fit the key from the 
+            chest. You put the key in the hole and turn. You hear a click. You open the door and walk forward. 
+            """))
+
+            return "finished"
+        else:
+            print("Input not recognised")
 
 class RiddleRoom(Place):
 
@@ -100,17 +134,35 @@ class TreeRoom(Place):
     def enter(self):
         pass
 
+class Finished(Place):
+
+    def enter(self):
+        print("Congratulations! You've won!")
+        return "finished"
+
 
 class Map:
 
+    places = {
+        "entry_room" : EntryRoom(),
+        "tree_room" : TreeRoom(),
+        "table_room" : TableRoom(),
+        "troll_room" : TrollRoom(),
+        "kobold_room" : KoboldRoom(),
+        "dragon_room" : DragonRoom(),
+        "corridor" : Corridor(),
+        "riddle_room" : RiddleRoom(),
+        "finished" : Finished()
+    }
     def __init__(self, start_place):
-        pass
+        self.start_place = start_place
 
     def next_place(self, place_name):
-        pass
+        val = Map.places.get(place_name)
+        return val
 
     def opening_place(self):
-        pass
+        return self.next_place(self.start_place)
 
 a_map = Map("entry_room")
 a_game = Engine(a_map)
