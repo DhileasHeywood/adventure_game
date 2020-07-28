@@ -37,6 +37,7 @@ class Engine:
         current_place.enter()
 
 
+
 class Death(Place):
 
     quips = [
@@ -80,7 +81,8 @@ class EntryRoom(Place):
                 You walk up to the door. It's locked. If only there were a key...
                 """))
 
-            # Not sure if this function is going to work or not, but I want to go back to the start of the function.
+            # This will set 'next_place_name' to be "entry_room", so the game will take you back to the start of the
+            # entry room as if you were just walking in there.
             return "entry_room"
 
 
@@ -167,6 +169,34 @@ class Map:
     def opening_place(self):
         return self.next_place(self.start_place)
 
+class Items:
+    def __init__(self):
+        self.gold = 0
+        self.weapon = None
+        self.companion = None
+
+
+
+    def how_much_gold(self):
+        print(f"You have {self.gold} gold")
+
+    def what_weapon(self):
+        print(f"You have a {self.weapon}")
+
+    def who_with(self):
+        print(f"You're travelling with {self.companion}")
+
+    def add_gold(self, amount):
+        self.gold = self.gold + amount
+
+    def new_weapon(self, weapon):
+        self.weapon = weapon
+
+    def new_companion(self, companion):
+        self.companion = companion
+
+
+players_stuff = Items()
 a_map = Map("entry_room")
 a_game = Engine(a_map)
 a_game.play()
