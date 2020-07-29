@@ -67,39 +67,77 @@ class Death(Place):
 
 class EntryRoom(Place):
 
+    def __init__(self):
+        self.door_locked = True
+        self.visited = False
+
     def enter(self):
-        print(dedent("""
-        You wake up in a room. You're all alone.
-        The room is almost empty, with just the chair you're sitting on, and a chest in the corner of the room.
-        You see a door directly in front of you. What do you do?
-        """))
+        if self.visited == False:
+            self.visited = True
+            print(dedent("""
+            You wake up in a room. You're all alone.
+            The room is almost empty, with just the chair you're sitting on, and a chest in the corner of the room.
+            You see a door directly in front of you. What do you do?
+            """))
+
+        elif self.door_locked == False:
+            print(dedent("""
+            You open the door and walk forward. 
+            """))
+
+            return "finished"
+
+        else:
+            print(dedent("What do you do?"))
 
         action = input("> ")
 
         if "door" in action:
-            print(dedent("""
-                You walk up to the door. It's locked. If only there were a key...
-                """))
+            if "key" in players_stuff.things:
+                print(dedent("""
+                            You walk up to the door. It's locked, but there is a keyhole. You think it might fit the key from the chest. 
+                            You put the key in the hole and turn. It fits. Do you want to unlock it?
+                            """))
 
-            # This will set 'next_place_name' to be "entry_room", so the game will take you back to the start of the
-            # entry room as if you were just walking in there.
-            return "entry_room"
+                answer = input("> ")
+                if answer == "yes":
+                    self.door_locked = False
+                    return "entry_room"
 
+                else:
+                    return "entry_room"
+
+
+            else:
+                print(dedent("""
+                    You walk up to the door. It's locked. If only there were a key...
+                    """))
+                # This will set 'next_place_name' to be "entry_room", so the game will take you back to the start of the
+                # entry room. Since you've already visited the room, it'll ask what you want to do.
+                return "entry_room"
 
         elif "chest" in action:
             print(dedent("""
             You walk towards the chest. 
             You try to open it, but the closing mechanism is rusty and stiff. It's proving tough to open. 
             You struggle for a few minutes, but eventually, you feel the latch give, and the chest opens up. You look inside. 
-            You see a key, and a rusty sword. You take the key and the sword. 
-            It might be rusty, but you feel safer knowing that you have some way to protect yourself. 
-            Who knows what might reside within these walls...
-            
-            You walk up to the door. It's locked, but there is a keyhole. You think it might fit the key from the chest. 
-            You put the key in the hole and turn. You hear a click. You open the door and walk forward. 
+            You see a key, and a rusty sword. What would you like to take them?
             """))
 
-            return "finished"
+            answer = input("> ")
+
+            if answer == "yes":
+                players_stuff.weapon = "Rusty Sword"
+                players_stuff.new_thing("key")
+                print(dedent("""
+                It might be rusty, but you feel safer knowing that you have some way to protect yourself. 
+                Who knows what might reside within these walls...
+                """))
+                return "entry_room"
+
+            else:
+                return "entry_room"
+
         else:
             print("Input not recognised")
             return "entry_room"
@@ -174,8 +212,7 @@ class Items:
         self.gold = 0
         self.weapon = None
         self.companion = None
-
-
+        self.things = []
 
     def how_much_gold(self):
         print(f"You have {self.gold} gold")
@@ -189,11 +226,9 @@ class Items:
     def add_gold(self, amount):
         self.gold = self.gold + amount
 
-    def new_weapon(self, weapon):
-        self.weapon = weapon
+    def new_thing(self, thing):
+        self.things = self.things.append(thing)
 
-    def new_companion(self, companion):
-        self.companion = companion
 
 
 players_stuff = Items()
