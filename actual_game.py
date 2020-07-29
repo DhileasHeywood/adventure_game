@@ -1,6 +1,11 @@
 from random import randint
 from textwrap import dedent
 
+yes_answers = ["yes", "yup", "uhuh", "sure", "if i must", "definitely", "absolutely", "mhmm", "mmhmm", "yeah", "yeh", "ues", "ya", "ja", "si", "oui", "yar", "yah"]
+no_answers = ["no", "nope", "nop", "nay", "nah", "no way"]
+joke_answers = ["kill myself"]
+
+
 
 class Place:
 
@@ -16,9 +21,9 @@ class Engine:
     def __init__(self, place_map):
         self.place_map = place_map
 
-
     # This function is what runs the game. Every time you run this method, you 'play' the game.
     def play(self):
+
         # first we set where the current place is, by specifying it. We create an object of class Map, with the name of the opening place.
         # We then use that object when making an object of class Engine. (composition and all)
 
@@ -35,7 +40,6 @@ class Engine:
 
         # This is just to make sure that the last scene runs, because we'll be out of the game loop if we get there.
         current_place.enter()
-
 
 
 class Death(Place):
@@ -65,6 +69,7 @@ class Death(Place):
         else:
             exit(1)
 
+
 class EntryRoom(Place):
 
     def __init__(self):
@@ -72,15 +77,15 @@ class EntryRoom(Place):
         self.visited = False
 
     def enter(self):
-        if self.visited == False:
+        if self.visited is not True:
             self.visited = True
             print(dedent("""
             You wake up in a room. You're all alone.
-            The room is almost empty, with just the chair you're sitting on, and a chest in the corner of the room.
+            The room is almost empty with just the chair you're sitting on, and a chest in the corner of the room.
             You see a door directly in front of you. What do you do?
             """))
 
-        elif self.door_locked == False:
+        elif self.door_locked is False:
             print(dedent("""
             You open the door and walk forward. 
             """))
@@ -100,13 +105,12 @@ class EntryRoom(Place):
                             """))
 
                 answer = input("> ")
-                if answer == "yes":
+                if answer in yes_answers:
                     self.door_locked = False
                     return "entry_room"
 
                 else:
                     return "entry_room"
-
 
             else:
                 print(dedent("""
@@ -119,14 +123,14 @@ class EntryRoom(Place):
         elif "chest" in action:
             print(dedent("""
             You walk towards the chest. 
-            You try to open it, but the closing mechanism is rusty and stiff. It's proving tough to open. 
-            You struggle for a few minutes, but eventually, you feel the latch give, and the chest opens up. You look inside. 
-            You see a key, and a rusty sword. What would you like to take them?
+            You try to open it but the closing mechanism is rusty and stiff. It's proving tough to open. 
+            You struggle for a few minutes but eventually you feel the latch give, and the chest opens up. You look inside. 
+            You see a key, and a rusty sword. Would you like to take them?
             """))
 
             answer = input("> ")
 
-            if answer == "yes":
+            if answer in yes_answers:
                 players_stuff.weapon = "Rusty Sword"
                 players_stuff.new_thing("key")
                 print(dedent("""
@@ -142,40 +146,48 @@ class EntryRoom(Place):
             print("Input not recognised")
             return "entry_room"
 
+
 class RiddleRoom(Place):
 
     def enter(self):
         pass
+
 
 class Corridor(Place):
 
     def enter(self):
         pass
 
+
 class DragonRoom(Place):
 
     def enter(self):
         pass
+
 
 class KoboldRoom(Place):
 
     def enter(self):
         pass
 
+
 class TrollRoom(Place):
 
     def enter(self):
         pass
+
 
 class TableRoom(Place):
 
     def enter(self):
         pass
 
+
 class TreeRoom(Place):
 
     def enter(self):
         pass
+
 
 class Finished(Place):
 
@@ -187,16 +199,17 @@ class Finished(Place):
 class Map:
 
     places = {
-        "entry_room" : EntryRoom(),
-        "tree_room" : TreeRoom(),
-        "table_room" : TableRoom(),
-        "troll_room" : TrollRoom(),
-        "kobold_room" : KoboldRoom(),
-        "dragon_room" : DragonRoom(),
-        "corridor" : Corridor(),
-        "riddle_room" : RiddleRoom(),
-        "finished" : Finished()
+        "entry_room": EntryRoom(),
+        "tree_room": TreeRoom(),
+        "table_room": TableRoom(),
+        "troll_room": TrollRoom(),
+        "kobold_room": KoboldRoom(),
+        "dragon_room": DragonRoom(),
+        "corridor": Corridor(),
+        "riddle_room": RiddleRoom(),
+        "finished": Finished()
     }
+
     def __init__(self, start_place):
         self.start_place = start_place
 
@@ -207,12 +220,13 @@ class Map:
     def opening_place(self):
         return self.next_place(self.start_place)
 
+
 class Items:
     def __init__(self):
         self.gold = 0
         self.weapon = None
         self.companion = None
-        self.things = []
+        self.things = ["clothes"]
 
     def how_much_gold(self):
         print(f"You have {self.gold} gold")
@@ -227,8 +241,7 @@ class Items:
         self.gold = self.gold + amount
 
     def new_thing(self, thing):
-        self.things = self.things.append(thing)
-
+       self.things.append(thing)
 
 
 players_stuff = Items()
