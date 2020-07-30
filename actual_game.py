@@ -262,9 +262,8 @@ class TableRoom(Place):
             self._visited = True
             print(dedent("""
             You emerge into a long room. It looks a lot like the great halls of castles described in the fairytales 
-            you were told as a child. There's a long table in the middle of the room, with places all laid out, and what
-            looks like a feast! Roasted meats, steaming piles of roast potatoes, dishes of vegetables, some you don't
-            even recognise! At the head of the table, in the biggest chair there's a figur89e wearing a crown, but with the
+            you were told as a child. There's a long table in the middle of the room, with places all laid out, and empty
+            dishes. At the head of the table, in the biggest chair there's a figur89e wearing a crown, but with the
             roaring fire behind them, you can't make out any details. On the right wall, there's a door. What do you do?
             """))
 
@@ -276,7 +275,87 @@ class TableRoom(Place):
         answer = input("> ")
 
         if "figure" in answer or "person" in answer or "crown" in answer:
-            pass
+            print(dedent("""
+            You walk around the table, and closer to the figure in the chair. You get a prickly feeling on the back of 
+            your neck. Something's not right.....
+            And suddenly, you see it! It's not a person! It's a skeleton! You stumble backwards in shock.
+            What do you do?
+            """))
+
+            answer = input("> ")
+
+            if "approach" in answer or "fight" in answer or "talk" in answer:
+                if players_stuff.weapon is not None:
+                    print(dedent(f"""
+                    You grip your {players_stuff.weapon} just in case as you step closer to the skeleton. In a quiet 
+                    voice, you call out 'hello!'. The silence is heavy. You step forward again and repeat 'hello!'. 
+                    For a second, you start to relax. Then all of a sudden, the skeleton jumps to its feet, its own sword
+                    drawn! Do you stand and fight?
+                    """))
+
+                else:
+                    print(dedent("""
+                    You step closer to the skeleton. In a quiet voice, you call out 'hello!'. The silence is heavy. You 
+                    step forward again and repeat 'hello!'. For a second, you start to relax. Then all of a sudden, the 
+                    skeleton jumps to its feet, its own sword drawn! Do you stand and fight?
+                    """))
+
+                answer = input("> ")
+
+                if answer in yes_answers:
+                    if players_stuff.weapon is not None:
+                        die = randint(1, 2)
+                        if die == 1:
+                            print(dedent("""
+                            The skeleton runs at you, sword drawn, at the last second, you manage to parry the attack,
+                            but the skeleton is quick. You keep parrying its blows, but it keeps delivering them. You 
+                            eventually begin to tire, and the skeleton makes a slash. It makes contact. You fall, and see
+                            the skeleton looking over you with his sword ready to plunge into your heart.
+                            """))
+                            return "death"
+
+                        else:
+                            print(dedent("""
+                            The skeleton runs at you, sword drawn, at the last second, you manage to parry the attack,
+                            but the skeleton is quick. You keep parrying its blows, but it keeps delivering them. You 
+                            eventually fall into a rhythm, and start to see the skeleton's pattern of attacks. You see 
+                            and opening, and make your move. You slash at the skeleton's neck, and make contact, watch as
+                            their whole body falls to pieces on the floor. 
+                            """))
+                            return "table_room"
+
+                else:
+                    print(dedent("""
+                    You turn to flee. You're close to the door leading out of the room, so you make a break
+                    for it, praying that it's not locked. You're in luck! It's open. You burst through, and 
+                    slam the door behind you, keeping all of your weight against it. You hear the skeleton
+                    banging against the door, but thankfully, after a tense few minutes, it seems to give up.
+                    """))
+                    return "finished"
+
+            # elif "table" in answer or "eat" in answer or "food" in answer:
+            #   pass
+
+            elif "back" in answer or "flee" in answer or "run" in answer:
+                print(dedent("""
+                You turn around and hurry back to the door you just came from. But it's locked. How...? But there's
+                no time to worry about that. You run to the other door, and to your relief, it's unlocked. You 
+                turn around to see that the skeleton has gotten up, and is running towards you! You slip through
+                the door and hold it shut behind you, just as you hear the skeleton make contact with it. After 
+                a few tense minutes of banging, you sense that the skeleton has given up"""))
+                return "finished"
+
+            elif answer in personal_answers:
+                players_stuff.query_all_things()
+                return "table_room"
+
+            elif answer in companion_answers:
+                players_stuff.who_with()
+                return "table_room"
+
+            else:
+                print("Input not recognised")
+                return "table_room"
 
         elif "table" in answer or "food" in answer or "feast" in answer or "eat" in answer:
             pass
@@ -286,15 +365,15 @@ class TableRoom(Place):
 
         elif answer in personal_answers:
             players_stuff.query_all_things()
-            return "tree_in_tree_room"
+            return "table_room"
 
         elif answer in companion_answers:
             players_stuff.who_with()
-            return "tree_in_tree_room"
+            return "table_room"
 
         else:
             print("Input not recognised")
-            return "tree_in_tree_room"
+            return "table_room"
 
 
 class TreeInTreeRoom(Place):
@@ -507,7 +586,7 @@ class Map:
 class Items:
     def __init__(self):
         self.gold = 0
-        self.weapon = "no weapons"
+        self.weapon = None
         self.companion = "nobody"
         self.things = ["clothes"]
 
