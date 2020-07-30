@@ -4,7 +4,7 @@ from textwrap import dedent
 yes_answers = ["yes", "yup", "uhuh", "sure", "if i must", "definitely", "absolutely", "mhmm", "mmhmm", "yeah", "yeh",
                "ues", "ya", "ja", "si", "oui", "yar", "yah", "yarp", "yes please", "sure thing", "yes pls"]
 no_answers = ["no", "nope", "nop", "nay", "nah", "no way"]
-joke_answers = ["kill myself", "poop", "summon key", "knock knock", "wingardium leviosa"]
+joke_answers = ["kill myself", "poop", "summon key", "knock knock", "wingardium leviosa", "lick fresco"]
 personal_answers = ["check items", "items", "what do i have", "what things am i carrying", "what are my things",
                     "what am i carrying", "what stuff do i have", "what things do i have", "whats my stuff",
                     "what weapons", "my weapons", "what weapons do i have", "what weapons have i got", "whats my weapons",
@@ -384,7 +384,8 @@ class TreeInTreeRoom(Place):
     def enter(self):
         if self._visited is not True and self.investigated is not True:
             self._visited = True
-            print(dedent("""You've climbed the tree. You've made it all the way to the the top. From here you can see 
+            print(dedent("""
+            You've climbed the tree. You've made it all the way to the the top. From here you can see 
             the painting more clearly. One of the branches actually extends towards it. One of the torches on the wall 
             flickers, and you see a glint in the painting. Do you want to investigate?
             """))
@@ -514,10 +515,11 @@ class TreeRoom(Place):
 
         answer = input("> ")
 
-        if "left" in answer:
-            print(dedent("""You walk up to the door on the left. You turn the handle, fully expecting it to be locked. 
-                  To your surprise, it opens easily. You step through.
-                  """))
+        if "left" in answer or "door" in answer:
+            print(dedent("""
+            You walk up to the door on the left. You turn the handle, fully expecting it to be locked. 
+            To your surprise, it opens easily. You step through.
+            """))
             return "table_room"
 
         # elif "right" in answer:
@@ -611,5 +613,3 @@ players_stuff = Items()
 a_map = Map("entry_room")
 a_game = Engine(a_map)
 a_game.play()
-
-players_stuff.query_all_things()
