@@ -454,20 +454,20 @@ class TableRoomFarSide(Place):
                     answer = answer + char
 
             if answer in personal_answers:
-            players_stuff.query_all_things()
-            return "table_room_far_side"
+                players_stuff.query_all_things()
+                return "table_room_far_side"
 
             elif answer in companion_answers:
-            players_stuff.who_with()
-            return "table_room_far_side"
+                players_stuff.who_with()
+                return "table_room_far_side"
 
             elif "table" in answer or "eat" in answer or "food" in answer:
-            print("you can't do that yet, sorry")
-            return "table_room"
+                print("you can't do that yet, sorry")
+                return "table_room"
 
             else:
-            print("Input not recognised")
-            return "table_room_far_side"
+                print("Input not recognised")
+                return "table_room_far_side"
 
 
 class TableRoom(Place):
@@ -756,6 +756,7 @@ class Items:
         self.weapon = None
         self.companion = "nobody"
         self.things = ["clothes"]
+        self.poisoned = False
 
     def who_with(self):
         if self.companion is "nobody":
