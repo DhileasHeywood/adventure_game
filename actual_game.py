@@ -13,6 +13,7 @@ personal_answers = ["check items", "items", "what do i have", "what things am i 
                     "do i have a sword", "check weapons", "gold", "how much gold do i have", "how much do i have",
                     "how much gold am i carrying", "do i have money", "how much money do i have"]
 companion_answers = ["who am i travelling with", "who am i with", "who is with me", "i'm with who", "who with"]
+punctuations = '''!()-[]{};:'"\,<>./?@#$%^&*_~'''
 
 
 
@@ -72,7 +73,11 @@ class Death(Place):
     def enter(self):
         print(Death.quips[randint(0, len(self.quips)-1)])
         print("Start again?")
-        answer = input("> ").lower()
+        raw_answer = input("> ").lower()
+        answer = ""
+        for char in raw_answer:
+            if char not in punctuations:
+                answer = answer + char
 
         if answer == "yes":
             # I need to figure out how to restart the game, but I'll put it here.
@@ -110,7 +115,11 @@ class EntryRoom(Place):
         else:
             print(dedent("What do you do?"))
 
-        answer = input("> ")
+        raw_answer = input("> ").lower()
+        answer = ""
+        for char in raw_answer:
+            if char not in punctuations:
+                answer = answer + char
 
         if "door" in answer:
             if "a key" in players_stuff.things:
@@ -119,7 +128,12 @@ class EntryRoom(Place):
                             You put the key in the hole and turn. It fits. Do you want to unlock it?
                             """))
 
-                answer = input("> ")
+                raw_answer = input("> ").lower()
+                answer = ""
+                for char in raw_answer:
+                    if char not in punctuations:
+                        answer = answer + char
+
                 if answer in yes_answers:
                     self.door_locked = False
                     return "entry_room"
@@ -174,7 +188,11 @@ class EntryRoom(Place):
             You see a key, and a rusty sword. Would you like to take them?
             """))
 
-            answer = input("> ")
+            raw_answer = input("> ").lower()
+            answer = ""
+            for char in raw_answer:
+                if char not in punctuations:
+                    answer = answer + char
 
             if answer in yes_answers:
                 players_stuff.weapon = "a rusty sword"
@@ -255,76 +273,76 @@ class TrollRoom(Place):
         pass
 
 
-class TableRoom(Place):
+class TableRoomSkeleton(Place):
+
+    def __init__(self):
+        self.skeleton_alive = True
+        self.skeleton_setup = False
 
     def enter(self):
+
+        if self.skeleton_setup is False:
+            self.skeleton_setup = True
+            return "table_room"
+
         if self._visited is not True:
             self._visited = True
-            print(dedent("""
-            You emerge into a long room. It looks a lot like the great halls of castles described in the fairytales 
-            you were told as a child. There's a long table in the middle of the room, with places all laid out, and empty
-            dishes. At the head of the table, in the biggest chair there's a figur89e wearing a crown, but with the
-            roaring fire behind them, you can't make out any details. On the right wall, there's a door. What do you do?
-            """))
 
-        else:
-            print(dedent("""
-            What do you do?
-            """))
 
-        answer = input("> ")
+            if players_stuff.weapon is not None:
+                print(dedent(f"""
+                You grip your {players_stuff.weapon} just in case as you step closer to the skeleton. In a quiet 
+                voice, you call out 'hello!'. The silence is heavy. You step forward again and repeat 'hello!'. 
+                For a second, you start to relax. Then all of a sudden, the skeleton jumps to its feet, its own sword
+                drawn! Do you stand and fight?
+                """))
 
-        if "figure" in answer or "person" in answer or "crown" in answer:
-            print(dedent("""
-            You walk around the table, and closer to the figure in the chair. You get a prickly feeling on the back of 
-            your neck. Something's not right.....
-            And suddenly, you see it! It's not a person! It's a skeleton! You stumble backwards in shock.
-            What do you do?
-            """))
+            else:
+                print(dedent("""
+                You step closer to the skeleton. In a quiet voice, you call out 'hello!'. The silence is heavy. You 
+                step forward again and repeat 'hello!'. For a second, you start to relax. Then all of a sudden, the 
+                skeleton jumps to its feet, its own sword drawn! Do you stand and fight?
+                """))
 
-            answer = input("> ")
+            raw_answer = input("> ").lower()
+            answer = ""
+            for char in raw_answer:
+                    if char not in punctuations:
+                        answer = answer + char
 
-            if "approach" in answer or "fight" in answer or "talk" in answer:
+            if answer in yes_answers:
                 if players_stuff.weapon is not None:
-                    print(dedent(f"""
-                    You grip your {players_stuff.weapon} just in case as you step closer to the skeleton. In a quiet 
-                    voice, you call out 'hello!'. The silence is heavy. You step forward again and repeat 'hello!'. 
-                    For a second, you start to relax. Then all of a sudden, the skeleton jumps to its feet, its own sword
-                    drawn! Do you stand and fight?
-                    """))
+                    die = randint(1, 3)
+                    if die == 1:
+                        print(dedent("""
+                        The skeleton runs at you, sword drawn, at the last second, you manage to parry the attack,
+                        but the skeleton is quick. You keep parrying its blows, but it keeps delivering them. You 
+                        eventually begin to tire, and the skeleton makes a slash. It makes contact. You fall, and see
+                        the skeleton looking over you with his sword ready to plunge into your heart.
+                        """))
+                        return "death"
+
+                    else:
+                        print(dedent("""
+                        The skeleton runs at you, sword drawn, at the last second, you manage to parry the attack,
+                        but the skeleton is quick. You keep parrying its blows, but it keeps delivering them. You 
+                        eventually fall into a rhythm, and start to see the skeleton's pattern of attacks. You see 
+                        and opening, and make your move. You slash at the skeleton's neck, and make contact, watch as
+                        their whole body falls to pieces on the floor. 
+                        """))
+                        self.skeleton_alive = False
+                        return "table_room"
 
                 else:
                     print(dedent("""
-                    You step closer to the skeleton. In a quiet voice, you call out 'hello!'. The silence is heavy. You 
-                    step forward again and repeat 'hello!'. For a second, you start to relax. Then all of a sudden, the 
-                    skeleton jumps to its feet, its own sword drawn! Do you stand and fight?
+                    You raise your fists in an attempt to fight off the skeleton, but as it readies its first blow, 
+                    you realise what a horrible mistake you've made. What possessed you to fight a skeleton with a 
+                    sword when you've nothing to defend yourself with?! 'I'm such a fool!' you think to yourself, as
+                    you savour the last few moments of life before you get hacked to pieces.
                     """))
+                    return "death"
 
-                answer = input("> ")
-
-                if answer in yes_answers:
-                    if players_stuff.weapon is not None:
-                        die = randint(1, 2)
-                        if die == 1:
-                            print(dedent("""
-                            The skeleton runs at you, sword drawn, at the last second, you manage to parry the attack,
-                            but the skeleton is quick. You keep parrying its blows, but it keeps delivering them. You 
-                            eventually begin to tire, and the skeleton makes a slash. It makes contact. You fall, and see
-                            the skeleton looking over you with his sword ready to plunge into your heart.
-                            """))
-                            return "death"
-
-                        else:
-                            print(dedent("""
-                            The skeleton runs at you, sword drawn, at the last second, you manage to parry the attack,
-                            but the skeleton is quick. You keep parrying its blows, but it keeps delivering them. You 
-                            eventually fall into a rhythm, and start to see the skeleton's pattern of attacks. You see 
-                            and opening, and make your move. You slash at the skeleton's neck, and make contact, watch as
-                            their whole body falls to pieces on the floor. 
-                            """))
-                            return "table_room"
-
-                else:
+            else:
                     print(dedent("""
                     You turn to flee. You're close to the door leading out of the room, so you make a break
                     for it, praying that it's not locked. You're in luck! It's open. You burst through, and 
@@ -333,8 +351,32 @@ class TableRoom(Place):
                     """))
                     return "finished"
 
-            # elif "table" in answer or "eat" in answer or "food" in answer:
-            #   pass
+
+
+        else:
+            pass
+
+
+class TableRoomFarSide(Place):
+
+    def enter(self):
+
+        print("What do you do?")
+
+        raw_answer = input("> ").lower()
+        answer = ""
+        for char in raw_answer:
+            if char not in punctuations:
+                answer = answer + char
+
+        if TableRoomSkeleton.skeleton_alive = True:
+
+            if "approach" in answer or "fight" in answer or "sword" in answer or ("draw" and "weapon" in answer):
+               return "table_room_skeleton"
+
+            elif "table" in answer or "eat" in answer or "food" in answer:
+                print("you can't do that yet, sorry")
+                return "table_room"
 
             elif "back" in answer or "flee" in answer or "run" in answer:
                 print(dedent("""
@@ -347,15 +389,47 @@ class TableRoom(Place):
 
             elif answer in personal_answers:
                 players_stuff.query_all_things()
-                return "table_room"
+                return "table_room_far_side"
 
             elif answer in companion_answers:
                 players_stuff.who_with()
-                return "table_room"
+                return "table_room_far_side"
 
             else:
                 print("Input not recognised")
-                return "table_room"
+                return "table_room_far_side"
+
+class TableRoom(Place):
+
+
+    def enter(self):
+        if self._visited is not True and TableRoomSkeleton.skeleton_alive is True:
+            self._visited = True
+            print(dedent("""
+            You emerge into a long room. It looks a lot like the great halls of castles described in the fairytales 
+            you were told as a child. There's a long table in the middle of the room, with places all laid out, and empty
+            dishes. At the head of the table, in the biggest chair there's a figure wearing a crown, but with the
+            roaring fire behind them, you can't make out any details. On the right wall, there's a door. What do you do?
+            """))
+
+        else:
+            print(dedent("""
+            What do you do?
+            """))
+
+        raw_answer = input("> ").lower()
+        answer = ""
+        for char in raw_answer:
+            if char not in punctuations:
+                answer = answer + char
+
+        if "figure" in answer or "person" in answer or "crown" in answer or "introduce" in answer:
+            print(dedent("""
+            You walk around the table, and closer to the figure in the chair. You get a prickly feeling on the back of 
+            your neck. Something's not right.....
+            And suddenly, you see it! It's not a person! It's a skeleton! You stumble backwards in shock.
+            """))
+            return "table_room_far_side"
 
         elif "table" in answer or "food" in answer or "feast" in answer or "eat" in answer:
             pass
@@ -390,7 +464,11 @@ class TreeInTreeRoom(Place):
             flickers, and you see a glint in the painting. Do you want to investigate?
             """))
 
-            answer = input("> ")
+            raw_answer = input("> ").lower()
+            answer = ""
+            for char in raw_answer:
+                if char not in punctuations:
+                    answer = answer + char
 
             if answer in yes_answers:
                 self.investigated = True
@@ -425,7 +503,11 @@ class TreeInTreeRoom(Place):
         elif self._visited is True and self.investigated is not True:
             print("You're at the top of the tree. What do you do?")
 
-            answer = input("> ")
+            raw_answer = input("> ").lower()
+            answer = ""
+            for char in raw_answer:
+                if char not in punctuations:
+                    answer = answer + char
 
             if "glint" in answer or "investigate" in answer:
                 self.investigated = True
@@ -462,7 +544,11 @@ class TreeInTreeRoom(Place):
             print(dedent("""You're at the top of the tree. What do you do?
             """))
 
-            answer = input("> ")
+            raw_answer = input("> ").lower()
+            answer = ""
+            for char in raw_answer:
+                if char not in punctuations:
+                    answer = answer + char
 
             if "glint" in answer or "investigate" in answer:
                 self.investigated = True
@@ -513,14 +599,18 @@ class TreeRoom(Place):
         else:
             print("What do you do?")
 
-        answer = input("> ")
+        raw_answer = input("> ").lower()
+        answer = ""
+        for char in raw_answer:
+            if char not in punctuations:
+                answer = answer + char
 
         if "left" in answer or "door" in answer:
             print(dedent("""
             You walk up to the door on the left. You turn the handle, fully expecting it to be locked. 
             To your surprise, it opens easily. You step through.
             """))
-            return "table_room"
+            return "table_room_skeleton"
 
         # elif "right" in answer:
         #    pass
@@ -565,6 +655,8 @@ class Map:
         "tree_room": TreeRoom(),
         "tree_in_tree_room": TreeInTreeRoom(),
         "table_room": TableRoom(),
+        "table_room_far_side": TableRoomFarSide(),
+        "table_room_skeleton": TableRoomSkeleton(),
         "troll_room": TrollRoom(),
         "kobold_room": KoboldRoom(),
         "dragon_room": DragonRoom(),
@@ -610,6 +702,6 @@ class Items:
 
 
 players_stuff = Items()
-a_map = Map("entry_room")
+a_map = Map("table_room")
 a_game = Engine(a_map)
 a_game.play()
