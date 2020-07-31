@@ -275,15 +275,7 @@ class TrollRoom(Place):
 
 class TableRoomSkeleton(Place):
 
-    def __init__(self):
-        self.skeleton_alive = True
-        self.skeleton_setup = False
-
     def enter(self):
-
-        if self.skeleton_setup is False:
-            self.skeleton_setup = True
-            return "table_room"
 
         if self._visited is not True:
             self._visited = True
@@ -363,47 +355,127 @@ class TableRoomFarSide(Place):
 
         print("What do you do?")
 
-        raw_answer = input("> ").lower()
-        answer = ""
-        for char in raw_answer:
-            if char not in punctuations:
-                answer = answer + char
+        if self.visited is False:
+            self.visited = True
 
-        if TableRoomSkeleton.skeleton_alive = True:
+            raw_answer = input("> ").lower()
+            answer = ""
+            for char in raw_answer:
+                if char not in punctuations:
+                    answer = answer + char
 
-            if "approach" in answer or "fight" in answer or "sword" in answer or ("draw" and "weapon" in answer):
-               return "table_room_skeleton"
+            if TableRoom.skeleton_alive == True:
 
-            elif "table" in answer or "eat" in answer or "food" in answer:
-                print("you can't do that yet, sorry")
-                return "table_room"
+                if "approach" in answer or "fight" in answer or "sword" in answer or ("draw" and "weapon" in answer):
+                    return "table_room_skeleton"
 
-            elif "back" in answer or "flee" in answer or "run" in answer:
-                print(dedent("""
-                You turn around and hurry back to the door you just came from. But it's locked. How...? But there's
-                no time to worry about that. You run to the other door, and to your relief, it's unlocked. You 
-                turn around to see that the skeleton has gotten up, and is running towards you! You slip through
-                the door and hold it shut behind you, just as you hear the skeleton make contact with it. After 
-                a few tense minutes of banging, you sense that the skeleton has given up"""))
-                return "finished"
+                elif "talk" in answer or "introduce" in answer or "friend" in answer:
+                    print(dedent("""
+                    You introduce yourself to the skeleton. The skeleton turns its head in your direction and opens its
+                    jaw to speak. 
+                    'My name is Nigellus the Resolute of Ironpoint. What brings you to my halls?'
+                    You look at him in astonishment and answer.
+                    'I don't know. I'm trying to find my way home.'
+                    Nigellus regards you for a second, seemingly thinking about what to do with you. He extends a hand with
+                    a few gold coins, and extends his sword for you to take.
+                    'You'll need these to reach the surface. I have long been isolated, trapped within these walls. I forget
+                    why I came here in the first place. Take these, on the condition that you release me from this existence'
+                    Do you take the gifts?
+                    """))
 
-            elif answer in personal_answers:
-                players_stuff.query_all_things()
-                return "table_room_far_side"
+                    raw_answer = input("> ").lower()
+                    answer = ""
+                    for char in raw_answer:
+                        if char not in punctuations:
+                            answer = answer + char
 
-            elif answer in companion_answers:
-                players_stuff.who_with()
-                return "table_room_far_side"
+                    if answer in yes_answers:
+                        players_stuff.add_gold(10)
+                        players_stuff.weapon = "a gleaming longsword"
+                        TableRoom.skeleton_alive = False
+                        print(dedent("""
+                        You take the gleaming longsword and the gold from Nigellus. You thank him for the gifts, and look 
+                        down at the floor as you prepare yourself. You raise the sword and relieve Nigellus of his troubled
+                        existence.
+                        """))
+                        return "table_room_far_side"
+
+                elif "table" in answer or "eat" in answer or "food" in answer:
+                    print("you can't do that yet, sorry")
+                    return "table_room"
+
+                elif "back" in answer or "flee" in answer or "run" in answer:
+                    print(dedent("""
+                    You turn around and hurry back to the door you just came from. But it's locked. How...? But there's
+                    no time to worry about that. You run to the other door, and to your relief, it's unlocked. You 
+                    turn around to see that the skeleton has gotten up, and is running towards you! You slip through
+                    the door and hold it shut behind you, just as you hear the skeleton make contact with it. After 
+                    a few tense minutes of banging, you sense that the skeleton has given up"""))
+                    return "finished"
+
+                elif answer in personal_answers:
+                    players_stuff.query_all_things()
+                    return "table_room_far_side"
+
+                elif answer in companion_answers:
+                    players_stuff.who_with()
+                    return "table_room_far_side"
+
+                else:
+                    print("Input not recognised")
+                    return "table_room_far_side"
 
             else:
-                print("Input not recognised")
-                return "table_room_far_side"
+                if "table" in answer or "eat" in answer or "food" in answer:
+                    print("you can't do that yet, sorry")
+                    return "table_room"
+
+                elif answer in personal_answers:
+                    players_stuff.query_all_things()
+                    return "table_room_far_side"
+
+                elif answer in companion_answers:
+                    players_stuff.who_with()
+                    return "table_room_far_side"
+
+                else:
+                    print("Input not recognised")
+                    return "table_room_far_side"
+
+        else:
+            print(dedent("""
+            You're standing next to the table. The table is laid, and there are doors behind you, and on the wall to 
+            your left. What do you do?
+            """))
+            raw_answer = input("> ").lower()
+            answer = ""
+            for char in raw_answer:
+                if char not in punctuations:
+                    answer = answer + char
+
+            if answer in personal_answers:
+            players_stuff.query_all_things()
+            return "table_room_far_side"
+
+            elif answer in companion_answers:
+            players_stuff.who_with()
+            return "table_room_far_side"
+
+            elif "table" in answer or "eat" in answer or "food" in answer:
+            print("you can't do that yet, sorry")
+            return "table_room"
+
+            else:
+            print("Input not recognised")
+            return "table_room_far_side"
+
 
 class TableRoom(Place):
 
+    skeleton_alive = True
 
     def enter(self):
-        if self._visited is not True and TableRoomSkeleton.skeleton_alive is True:
+        if self._visited is not True:
             self._visited = True
             print(dedent("""
             You emerge into a long room. It looks a lot like the great halls of castles described in the fairytales 
@@ -414,7 +486,8 @@ class TableRoom(Place):
 
         else:
             print(dedent("""
-            What do you do?
+            You're standing at the foot of the table with a door behind you, and a door in the wall to your right. What 
+            do you do?
             """))
 
         raw_answer = input("> ").lower()
