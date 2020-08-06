@@ -1,5 +1,7 @@
+import game
+from textwrap import dedent
 
-class TreeInTreeRoom(Place):
+class TreeInTreeRoom(game.Place):
 
     def __init__(self):
         self.investigated = False
@@ -16,10 +18,10 @@ class TreeInTreeRoom(Place):
             raw_answer = input("> ").lower()
             answer = ""
             for char in raw_answer:
-                if char not in punctuations:
+                if char not in game.punctuations:
                     answer = answer + char
 
-            if answer in yes_answers:
+            if answer in game.yes_answers:
                 self.investigated = True
                 print(dedent("""
                 You carefully climb along the branch, which gets narrower as you get closer to the wall.
@@ -30,19 +32,19 @@ class TreeInTreeRoom(Place):
                 """))
                 return "tree_room"
 
-            elif answer in no_answers:
+            elif answer in game.no_answers:
                 print(dedent("""
                 You look at the spot for a little longer, and don't see any more glints, so you write it
                 off as a trick of the light and climb back down.
                 """))
                 return "tree_room"
 
-            elif answer in personal_answers:
-                players_stuff.query_all_things()
+            elif answer in game.personal_answers:
+                game.players_stuff.query_all_things()
                 return "tree_in_tree_room"
 
-            elif answer in companion_answers:
-                players_stuff.who_with()
+            elif answer in game.companion_answers:
+                game.players_stuff.who_with()
                 return "tree_in_tree_room"
 
             else:
@@ -60,7 +62,7 @@ class TreeInTreeRoom(Place):
 
             if "glint" in answer or "investigate" in answer:
                 self.investigated = True
-                players_stuff.add_gold(30)
+                game.players_stuff.add_gold(30)
                 print(dedent("""
                 You carefully climb along the branch, which gets narrower as you get closer to the wall.
                 You reach as far as you thing you can get, close enough to touch the wall. You notice that a portion of
@@ -77,12 +79,12 @@ class TreeInTreeRoom(Place):
                 """))
                 return "tree_room"
 
-            elif answer in personal_answers:
-                players_stuff.query_all_things()
+            elif answer in game.personal_answers:
+                game.players_stuff.query_all_things()
                 return "tree_in_tree_room"
 
-            elif answer in companion_answers:
-                players_stuff.who_with()
+            elif answer in game.companion_answers:
+                game.players_stuff.who_with()
                 return "tree_in_tree_room"
 
             else:
@@ -96,7 +98,7 @@ class TreeInTreeRoom(Place):
             raw_answer = input("> ").lower()
             answer = ""
             for char in raw_answer:
-                if char not in punctuations:
+                if char not in game.punctuations:
                     answer = answer + char
 
             if "glint" in answer or "investigate" in answer:
@@ -120,12 +122,12 @@ class TreeInTreeRoom(Place):
                 """))
                 return "tree_room"
 
-            elif answer in personal_answers:
-                players_stuff.query_all_things()
+            elif answer in game.personal_answers:
+                game.players_stuff.query_all_things()
                 return "tree_in_tree_room"
 
-            elif answer in companion_answers:
-                players_stuff.who_with()
+            elif answer in game.companion_answers:
+                game.players_stuff.who_with()
                 return "tree_in_tree_room"
 
             else:
@@ -133,7 +135,7 @@ class TreeInTreeRoom(Place):
                 return "tree_in_tree_room"
 
 
-class TreeRoom(Place):
+class TreeRoom(game.Place):
 
     def enter(self):
         if self._visited is not True:
@@ -151,7 +153,7 @@ class TreeRoom(Place):
         raw_answer = input("> ").lower()
         answer = ""
         for char in raw_answer:
-            if char not in punctuations:
+            if char not in game.punctuations:
                 answer = answer + char
 
         if "left" in answer or "door" in answer:
@@ -170,19 +172,19 @@ class TreeRoom(Place):
             """))
             return "tree_in_tree_room"
 
-        elif answer in joke_answers:
+        elif answer in game.joke_answers:
             print("Come on... Take this seriously!")
             return "tree_room"
 
-        elif answer in no_answers:
+        elif answer in game.no_answers:
             return "tree_room"
 
-        elif answer in personal_answers:
-            players_stuff.query_all_things()
+        elif answer in game.personal_answers:
+            game.players_stuff.query_all_things()
             return "tree_room"
 
-        elif answer in companion_answers:
-            players_stuff.who_with()
+        elif answer in game.companion_answers:
+            game.players_stuff.who_with()
             return "tree_room"
 
         else:
