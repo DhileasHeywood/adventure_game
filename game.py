@@ -37,7 +37,7 @@ class Engine:
 class Map:
 
     places = {
-        "entry_room": entry_room.EntryRoom()
+        "entry_room": entry_room.entry_room
         #"tree_room": tree_room_.TreeRoom(),
         #"tree_in_tree_room": tree_room_.TreeInTreeRoom(),
         #"table_room": table_room.TableRoom(),

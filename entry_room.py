@@ -2,6 +2,7 @@ import place_and_items
 from textwrap import dedent
 
 
+
 class EntryRoom(place_and_items.Place):
 
 
@@ -161,4 +162,4 @@ class EntryRoom(place_and_items.Place):
             print("Input not recognised")
             return "entry_room"
 
-
+entry_room = EntryRoom()
