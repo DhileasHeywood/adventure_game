@@ -1,10 +1,14 @@
-class TableRoomSkeleton(Place):
+import place_and_items
+from textwrap import dedent
+from random import randint
+from game import players_stuff
+
+class TableRoomSkeleton(place_and_items.Place):
 
     def enter(self):
 
         if self._visited is not True:
             self._visited = True
-
 
             if players_stuff.weapon is not None:
                 print(dedent(f"""
@@ -24,10 +28,10 @@ class TableRoomSkeleton(Place):
             raw_answer = input("> ").lower()
             answer = ""
             for char in raw_answer:
-                    if char not in punctuations:
+                    if char not in place_and_items.punctuations:
                         answer = answer + char
 
-            if answer in yes_answers:
+            if answer in place_and_items.yes_answers:
                 if players_stuff.weapon is not None:
                     die = randint(1, 3)
                     if die == 1:
@@ -74,9 +78,10 @@ class TableRoomSkeleton(Place):
             pass
 
 
-class TableRoomFarSide(Place):
+class TableRoomFarSide(place_and_items.Place):
 
     def enter(self):
+        import game
 
         print("What do you do?")
 
@@ -86,7 +91,7 @@ class TableRoomFarSide(Place):
             raw_answer = input("> ").lower()
             answer = ""
             for char in raw_answer:
-                if char not in punctuations:
+                if char not in place_and_items.punctuations:
                     answer = answer + char
 
             if TableRoom.skeleton_alive == True:
@@ -111,10 +116,10 @@ class TableRoomFarSide(Place):
                     raw_answer = input("> ").lower()
                     answer = ""
                     for char in raw_answer:
-                        if char not in punctuations:
+                        if char not in place_and_items.punctuations:
                             answer = answer + char
 
-                    if answer in yes_answers:
+                    if answer in place_and_items.yes_answers:
                         players_stuff.add_gold(10)
                         players_stuff.weapon = "a gleaming longsword"
                         TableRoom.skeleton_alive = False
@@ -138,11 +143,11 @@ class TableRoomFarSide(Place):
                     a few tense minutes of banging, you sense that the skeleton has given up"""))
                     return "finished"
 
-                elif answer in personal_answers:
+                elif answer in place_and_items.personal_answers:
                     players_stuff.query_all_things()
                     return "table_room_far_side"
 
-                elif answer in companion_answers:
+                elif answer in place_and_items.companion_answers:
                     players_stuff.who_with()
                     return "table_room_far_side"
 
@@ -155,11 +160,11 @@ class TableRoomFarSide(Place):
                     print("you can't do that yet, sorry")
                     return "table_room"
 
-                elif answer in personal_answers:
+                elif answer in place_and_items.personal_answers:
                     players_stuff.query_all_things()
                     return "table_room_far_side"
 
-                elif answer in companion_answers:
+                elif answer in place_and_items.companion_answers:
                     players_stuff.who_with()
                     return "table_room_far_side"
 
@@ -175,14 +180,14 @@ class TableRoomFarSide(Place):
             raw_answer = input("> ").lower()
             answer = ""
             for char in raw_answer:
-                if char not in punctuations:
+                if char not in place_and_items.punctuations:
                     answer = answer + char
 
-            if answer in personal_answers:
+            if answer in place_and_items.personal_answers:
                 players_stuff.query_all_things()
                 return "table_room_far_side"
 
-            elif answer in companion_answers:
+            elif answer in place_and_items.companion_answers:
                 players_stuff.who_with()
                 return "table_room_far_side"
 
@@ -195,7 +200,7 @@ class TableRoomFarSide(Place):
                 return "table_room_far_side"
 
 
-class TableRoom(Place):
+class TableRoom(place_and_items.Place):
 
     skeleton_alive = True
 
@@ -204,7 +209,7 @@ class TableRoom(Place):
             self._visited = True
             print(dedent("""
             You emerge into a long room. It looks a lot like the great halls of castles described in the fairytales 
-            you were told as a child. There's a long table in the middle of the room, with places all laid out, and empty
+            you were told as a child. There's a long table in the middle of the room, with place all laid out, and empty
             dishes. At the head of the table, in the biggest chair there's a figure wearing a crown, but with the
             roaring fire behind them, you can't make out any details. On the right wall, there's a door. What do you do?
             """))
@@ -218,7 +223,7 @@ class TableRoom(Place):
         raw_answer = input("> ").lower()
         answer = ""
         for char in raw_answer:
-            if char not in punctuations:
+            if char not in place_and_items.punctuations:
                 answer = answer + char
 
         if "figure" in answer or "person" in answer or "crown" in answer or "introduce" in answer:
@@ -235,11 +240,11 @@ class TableRoom(Place):
         elif "door" in answer:
             pass
 
-        elif answer in personal_answers:
+        elif answer in place_and_items.personal_answers:
             players_stuff.query_all_things()
             return "table_room"
 
-        elif answer in companion_answers:
+        elif answer in place_and_items.companion_answers:
             players_stuff.who_with()
             return "table_room"
 

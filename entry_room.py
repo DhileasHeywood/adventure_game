@@ -1,7 +1,8 @@
-import game
+import place_and_items
 from textwrap import dedent
+from game import players_stuff
 
-class EntryRoom(game.Place):
+class EntryRoom(place_and_items.Place):
 
     def __init__(self):
         self.door_locked = True
@@ -23,7 +24,7 @@ class EntryRoom(game.Place):
             self.door_locked = True
             self._visited = False
 
-            import tree_room
+
             return "tree_room"
 
         else:
@@ -32,11 +33,11 @@ class EntryRoom(game.Place):
         raw_answer = input("> ").lower()
         answer = ""
         for char in raw_answer:
-            if char not in game.punctuations:
+            if char not in place_and_items.punctuations:
                 answer = answer + char
 
         if "door" in answer:
-            if "a key" in game.players_stuff.things:
+            if "a key" in players_stuff.things:
                 print(dedent("""
                             You walk up to the door. It's locked, but there is a keyhole. You think it might fit the key from the chest. 
                             You put the key in the hole and turn. It fits. Do you want to unlock it?
@@ -45,45 +46,45 @@ class EntryRoom(game.Place):
                 raw_answer = input("> ").lower()
                 answer = ""
                 for char in raw_answer:
-                    if char not in game.punctuations:
+                    if char not in place_and_items.punctuations:
                         answer = answer + char
 
-                if answer in game.yes_answers:
+                if answer in place_and_items.yes_answers:
                     self.door_locked = False
                     return "entry_room"
 
-                elif answer in game.joke_answers:
+                elif answer in place_and_items.joke_answers:
                     print("Come on... Take this seriously!")
                     return "entry_room"
 
-                elif answer in game.no_answers:
+                elif answer in place_and_items.no_answers:
                     print("You don't unlock the door. Do you want to stay here forever or something? Be Brave!")
                     return "entry_room"
 
-                elif answer in game.personal_answers:
-                    game.players_stuff.query_all_things()
+                elif answer in place_and_items.personal_answers:
+                    players_stuff.query_all_things()
                     return "entry_room"
 
-                elif answer in game.companion_answers:
-                    game.players_stuff.who_with()
+                elif answer in place_and_items.companion_answers:
+                    players_stuff.who_with()
                     return "entry_room"
 
                 else:
                     return "entry_room"
 
-            elif answer in game.joke_answers:
+            elif answer in place_and_items.joke_answers:
                 print("Come on... Take this seriously!")
                 return "entry_room"
 
-            elif answer in game.no_answers:
+            elif answer in place_and_items.no_answers:
                 return "entry_room"
 
-            elif answer in game.personal_answers:
-                game.players_stuff.query_all_things()
+            elif answer in place_and_items.personal_answers:
+                players_stuff.query_all_things()
                 return "entry_room"
 
-            elif answer in game.companion_answers:
-                game.players_stuff.who_with()
+            elif answer in place_and_items.companion_answers:
+                players_stuff.who_with()
                 return "entry_room"
 
             else:
@@ -105,12 +106,12 @@ class EntryRoom(game.Place):
             raw_answer = input("> ").lower()
             answer = ""
             for char in raw_answer:
-                if char not in game.punctuations:
+                if char not in place_and_items.punctuations:
                     answer = answer + char
 
-            if answer in game.yes_answers:
-                game.players_stuff.weapon = "a rusty sword"
-                game.players_stuff.new_thing("a key")
+            if answer in place_and_items.yes_answers:
+                players_stuff.weapon = "a rusty sword"
+                players_stuff.new_thing("a key")
                 print(dedent("""
                 The sword may be rusty, but you feel safer knowing that you have some way to protect yourself. 
                 Who knows what might reside within these walls...
@@ -118,38 +119,38 @@ class EntryRoom(game.Place):
                 """))
                 return "entry_room"
 
-            elif answer in game.joke_answers:
+            elif answer in place_and_items.joke_answers:
                 print("Come on... Take this seriously!")
                 return "entry_room"
 
-            elif answer in game.no_answers:
+            elif answer in place_and_items.no_answers:
                 print("You don't unlock the door. Do you want to stay here forever or something? Be Brave!")
                 return "entry_room"
 
-            elif answer in game.personal_answers:
-                game.players_stuff.query_all_things()
+            elif answer in place_and_items.personal_answers:
+                players_stuff.query_all_things()
                 return "entry_room"
 
-            elif answer in game.companion_answers:
-                game.players_stuff.who_with()
+            elif answer in place_and_items.companion_answers:
+                players_stuff.who_with()
                 return "entry_room"
 
             else:
                 return "entry_room"
 
-        elif answer in game.joke_answers:
+        elif answer in place_and_items.joke_answers:
             print("Come on... Take this seriously!")
             return "entry_room"
 
-        elif answer in game.no_answers:
+        elif answer in place_and_items.no_answers:
             return "entry_room"
 
-        elif answer in game.personal_answers:
-            game.players_stuff.query_all_things()
+        elif answer in place_and_items.personal_answers:
+            players_stuff.query_all_things()
             return "entry_room"
 
-        elif answer in game.companion_answers:
-            game.players_stuff.who_with()
+        elif answer in place_and_items.companion_answers:
+            players_stuff.who_with()
             return "entry_room"
 
         else:

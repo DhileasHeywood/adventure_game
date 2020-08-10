@@ -1,7 +1,7 @@
-import game
+import place_and_items
 from random import randint
 
-class Death(game.Place):
+class Death(place_and_items.Place):
 
 
     quips = [
@@ -23,7 +23,7 @@ class Death(game.Place):
         raw_answer = input("> ").lower()
         answer = ""
         for char in raw_answer:
-            if char not in game.punctuations:
+            if char not in place_and_items.punctuations:
                 answer = answer + char
 
         if answer == "yes":

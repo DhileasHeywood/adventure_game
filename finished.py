@@ -1,6 +1,6 @@
-import game
+import place_and_items
 
-class Finished(game.Place):
+class Finished(place_and_items.Place):
 
     def enter(self):
         print("Congratulations! You've won!")
