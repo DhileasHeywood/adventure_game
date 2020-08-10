@@ -46,3 +46,5 @@ class Place:
         print("This place is not yet configured.")
         print("Subclass it and implement enter().")
         exit(1)
+
+players_stuff = Items()

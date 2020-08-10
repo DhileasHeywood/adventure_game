@@ -12,7 +12,6 @@ class EntryRoom(place_and_items.Place):
     def enter(self):
         if self._visited is not True:
             self._visited = True
-
             print(dedent("""
             You wake up in a room. You're all alone.
             The room is almost empty with just the chair you're sitting on, and a chest in the corner of the room.
@@ -39,8 +38,7 @@ class EntryRoom(place_and_items.Place):
                 answer = answer + char
 
         if "door" in answer:
-            import game
-            if "a key" in game.players_stuff.things:
+            if "a key" in place_and_items.players_stuff.things:
                 print(dedent("""
                             You walk up to the door. It's locked, but there is a keyhole. You think it might fit the key from the chest. 
                             You put the key in the hole and turn. It fits. Do you want to unlock it?
@@ -65,11 +63,11 @@ class EntryRoom(place_and_items.Place):
                     return "entry_room"
 
                 elif answer in place_and_items.personal_answers:
-                    game.players_stuff.query_all_things()
+                    place_and_items.players_stuff.query_all_things()
                     return "entry_room"
 
                 elif answer in place_and_items.companion_answers:
-                    game.players_stuff.who_with()
+                    place_and_items.players_stuff.who_with()
                     return "entry_room"
 
                 else:
@@ -83,11 +81,11 @@ class EntryRoom(place_and_items.Place):
                 return "entry_room"
 
             elif answer in place_and_items.personal_answers:
-                game.players_stuff.query_all_things()
+                place_and_items.players_stuff.query_all_things()
                 return "entry_room"
 
             elif answer in place_and_items.companion_answers:
-                game.players_stuff.who_with()
+                place_and_items.players_stuff.who_with()
                 return "entry_room"
 
             else:
@@ -113,9 +111,8 @@ class EntryRoom(place_and_items.Place):
                     answer = answer + char
 
             if answer in place_and_items.yes_answers:
-                import game
-                game.players_stuff.weapon = "a rusty sword"
-                game.players_stuff.new_thing("a key")
+                place_and_items.players_stuff.weapon = "a rusty sword"
+                place_and_items.players_stuff.new_thing("a key")
                 print(dedent("""
                 The sword may be rusty, but you feel safer knowing that you have some way to protect yourself. 
                 Who knows what might reside within these walls...
@@ -132,11 +129,11 @@ class EntryRoom(place_and_items.Place):
                 return "entry_room"
 
             elif answer in place_and_items.personal_answers:
-                players_stuff.query_all_things()
+                place_and_items.players_stuff.query_all_things()
                 return "entry_room"
 
             elif answer in place_and_items.companion_answers:
-                players_stuff.who_with()
+                place_and_items.players_stuff.who_with()
                 return "entry_room"
 
             else:
@@ -150,12 +147,11 @@ class EntryRoom(place_and_items.Place):
             return "entry_room"
 
         elif answer in place_and_items.personal_answers:
-            import game
-            game.players_stuff.query_all_things()
+            place_and_items.players_stuff.query_all_things()
             return "entry_room"
 
         elif answer in place_and_items.companion_answers:
-            players_stuff.who_with()
+            place_and_items.players_stuff.who_with()
             return "entry_room"
 
         else:

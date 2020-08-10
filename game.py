@@ -64,8 +64,6 @@ class Map:
 
 
 
-
-players_stuff = place_and_items.Items()
 a_map = Map("entry_room")
 a_game = Engine(a_map)
 a_game.play()
