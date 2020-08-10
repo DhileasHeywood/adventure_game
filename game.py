@@ -1,9 +1,9 @@
 import place_and_items
 import entry_room
-import tree_room_
-import table_room
-import death
-import finished
+#import tree_room_
+#import table_room
+#import death
+#import finished
 
 
 class Engine:
@@ -37,19 +37,19 @@ class Engine:
 class Map:
 
     places = {
-        "entry_room": entry_room.EntryRoom(),
-        "tree_room": tree_room_.TreeRoom(),
-        "tree_in_tree_room": tree_room_.TreeInTreeRoom(),
-        "table_room": table_room.TableRoom(),
-        "table_room_far_side": table_room.TableRoomFarSide(),
-        "table_room_skeleton": table_room.TableRoomSkeleton(),
-        "troll_room": troll_room.TrollRoom(),
-        "kobold_room": kobold_room.KoboldRoom(),
-        "dragon_room": dragon_room.DragonRoom(),
-        "corridor": corridor.Corridor(),
-        "riddle_room": riddle_room.RiddleRoom(),
-        "finished": finished.Finished(),
-        "death": death.Death()
+        "entry_room": entry_room.EntryRoom()
+        #"tree_room": tree_room_.TreeRoom(),
+        #"tree_in_tree_room": tree_room_.TreeInTreeRoom(),
+        #"table_room": table_room.TableRoom(),
+        #"table_room_far_side": table_room.TableRoomFarSide(),
+        #"table_room_skeleton": table_room.TableRoomSkeleton(),
+        #"troll_room": troll_room.TrollRoom(),
+        #"kobold_room": kobold_room.KoboldRoom(),
+        #"dragon_room": dragon_room.DragonRoom(),
+        #"corridor": corridor.Corridor(),
+        #"riddle_room": riddle_room.RiddleRoom(),
+        #"finished": finished.Finished(),
+        #"death": death.Death()
     }
 
     def __init__(self, start_place):

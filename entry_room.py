@@ -1,8 +1,9 @@
 import place_and_items
 from textwrap import dedent
-from game import players_stuff
+
 
 class EntryRoom(place_and_items.Place):
+
 
     def __init__(self):
         self.door_locked = True
@@ -37,7 +38,8 @@ class EntryRoom(place_and_items.Place):
                 answer = answer + char
 
         if "door" in answer:
-            if "a key" in players_stuff.things:
+            import game
+            if "a key" in game.players_stuff.things:
                 print(dedent("""
                             You walk up to the door. It's locked, but there is a keyhole. You think it might fit the key from the chest. 
                             You put the key in the hole and turn. It fits. Do you want to unlock it?
@@ -62,11 +64,11 @@ class EntryRoom(place_and_items.Place):
                     return "entry_room"
 
                 elif answer in place_and_items.personal_answers:
-                    players_stuff.query_all_things()
+                    game.players_stuff.query_all_things()
                     return "entry_room"
 
                 elif answer in place_and_items.companion_answers:
-                    players_stuff.who_with()
+                    game.players_stuff.who_with()
                     return "entry_room"
 
                 else:
@@ -80,11 +82,11 @@ class EntryRoom(place_and_items.Place):
                 return "entry_room"
 
             elif answer in place_and_items.personal_answers:
-                players_stuff.query_all_things()
+                game.players_stuff.query_all_things()
                 return "entry_room"
 
             elif answer in place_and_items.companion_answers:
-                players_stuff.who_with()
+                game.players_stuff.who_with()
                 return "entry_room"
 
             else:
@@ -110,8 +112,9 @@ class EntryRoom(place_and_items.Place):
                     answer = answer + char
 
             if answer in place_and_items.yes_answers:
-                players_stuff.weapon = "a rusty sword"
-                players_stuff.new_thing("a key")
+                import game
+                game.players_stuff.weapon = "a rusty sword"
+                game.players_stuff.new_thing("a key")
                 print(dedent("""
                 The sword may be rusty, but you feel safer knowing that you have some way to protect yourself. 
                 Who knows what might reside within these walls...
@@ -146,7 +149,8 @@ class EntryRoom(place_and_items.Place):
             return "entry_room"
 
         elif answer in place_and_items.personal_answers:
-            players_stuff.query_all_things()
+            import game
+            game.players_stuff.query_all_things()
             return "entry_room"
 
         elif answer in place_and_items.companion_answers:
@@ -156,3 +160,5 @@ class EntryRoom(place_and_items.Place):
         else:
             print("Input not recognised")
             return "entry_room"
+
+

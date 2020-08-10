@@ -8,7 +8,7 @@ personal_answers = ["check items", "items", "what do i have", "what things am i 
                     "weapons", "where are my weapons", "which weapons do i have", "which weapons have i got",
                     "what weapons am i carrying", "which weapons am i carrying", "do i have weapons", "do i have things",
                     "do i have a sword", "check weapons", "gold", "how much gold do i have", "how much do i have",
-                    "how much gold am i carrying", "do i have money", "how much money do i have"]
+                    "how much gold am i carrying", "do i have money", "how much money do i have", "what have i got"]
 companion_answers = ["who am i travelling with", "who am i with", "who is with me", "i'm with who", "who with"]
 punctuations = '''!()-[]{};:'"\,<>./?@#$%^&*_~'''
 
