@@ -1,5 +1,4 @@
 import place_and_items
-from game import players_stuff
 from textwrap import dedent
 from random import randint
 
@@ -42,11 +41,11 @@ class TreeInTreeRoom(place_and_items.Place):
                 return "tree_room"
 
             elif answer in place_and_items.personal_answers:
-                players_stuff.query_all_things()
+                place_and_items.players_stuff.query_all_things()
                 return "tree_in_tree_room"
 
             elif answer in place_and_items.companion_answers:
-                players_stuff.who_with()
+                place_and_items.players_stuff.who_with()
                 return "tree_in_tree_room"
 
             else:
@@ -64,7 +63,7 @@ class TreeInTreeRoom(place_and_items.Place):
 
             if "glint" in answer or "investigate" in answer:
                 self.investigated = True
-                players_stuff.add_gold(30)
+                place_and_items.players_stuff.add_gold(30)
                 print(dedent("""
                 You carefully climb along the branch, which gets narrower as you get closer to the wall.
                 You reach as far as you thing you can get, close enough to touch the wall. You notice that a portion of
@@ -82,11 +81,11 @@ class TreeInTreeRoom(place_and_items.Place):
                 return "tree_room"
 
             elif answer in place_and_items.personal_answers:
-                players_stuff.query_all_things()
+                place_and_items.players_stuff.query_all_things()
                 return "tree_in_tree_room"
 
             elif answer in place_and_items.companion_answers:
-                players_stuff.who_with()
+                place_and_items.players_stuff.who_with()
                 return "tree_in_tree_room"
 
             else:
@@ -125,11 +124,11 @@ class TreeInTreeRoom(place_and_items.Place):
                 return "tree_room"
 
             elif answer in place_and_items.personal_answers:
-                players_stuff.query_all_things()
+                place_and_items.players_stuff.query_all_things()
                 return "tree_in_tree_room"
 
             elif answer in place_and_items.companion_answers:
-                players_stuff.who_with()
+                place_and_items.players_stuff.who_with()
                 return "tree_in_tree_room"
 
             else:
@@ -182,13 +181,16 @@ class TreeRoom(place_and_items.Place):
             return "tree_room"
 
         elif answer in place_and_items.personal_answers:
-            players_stuff.query_all_things()
+            place_and_items.players_stuff.query_all_things()
             return "tree_room"
 
         elif answer in place_and_items.companion_answers:
-            players_stuff.who_with()
+            place_and_items.players_stuff.who_with()
             return "tree_room"
 
         else:
             print("Input not recognised")
             return "tree_room"
+
+tree_room = TreeRoom()
+tree_in_tree_room = TreeInTreeRoom()

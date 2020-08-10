@@ -1,9 +1,9 @@
 import place_and_items
 import entry_room
-#import tree_room_
+import tree_room_
 #import table_room
-#import death
-#import finished
+import death
+import finished
 
 
 class Engine:
@@ -37,9 +37,9 @@ class Engine:
 class Map:
 
     places = {
-        "entry_room": entry_room.entry_room
-        #"tree_room": tree_room_.TreeRoom(),
-        #"tree_in_tree_room": tree_room_.TreeInTreeRoom(),
+        "entry_room": entry_room.entry_room,
+        "tree_room": tree_room_.tree_room,
+        "tree_in_tree_room": tree_room_.tree_in_tree_room,
         #"table_room": table_room.TableRoom(),
         #"table_room_far_side": table_room.TableRoomFarSide(),
         #"table_room_skeleton": table_room.TableRoomSkeleton(),
@@ -48,8 +48,8 @@ class Map:
         #"dragon_room": dragon_room.DragonRoom(),
         #"corridor": corridor.Corridor(),
         #"riddle_room": riddle_room.RiddleRoom(),
-        #"finished": finished.Finished(),
-        #"death": death.Death()
+        "finished": finished.finished,
+        "death": death.death
     }
 
     def __init__(self, start_place):

@@ -1,8 +1,8 @@
 import place_and_items
 from random import randint
 
-class Death(place_and_items.Place):
 
+class Death(place_and_items.Place):
 
     quips = [
         "You died. You suck at this!",
@@ -32,3 +32,6 @@ class Death(place_and_items.Place):
 
         else:
             exit(1)
+
+
+death = Death()

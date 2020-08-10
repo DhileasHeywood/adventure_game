@@ -6,3 +6,5 @@ class Finished(place_and_items.Place):
         print("Congratulations! You've won!")
         return "finished"
 
+finished = Finished()
+
