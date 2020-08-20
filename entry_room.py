@@ -25,7 +25,7 @@ class EntryRoom(place_and_items.Place):
             self.door_locked = True
             self._visited = False
 
-
+            import tree_room_
             return "tree_room"
 
         else:

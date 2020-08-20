@@ -1,7 +1,6 @@
-import place_and_items
 import entry_room
 import tree_room_
-#import table_room
+import table_room
 import death
 import finished
 
@@ -17,7 +16,7 @@ class Engine:
 
         # first we set where the current place is, by specifying it. We create an object of class Map, with the name of the opening place.
         # We then use that object when making an object of class Engine. (composition and all)
-
+ 
         # current_place will be equal to self.place_map with the opening_place() method applied. This will be written later.
         # What it will do is run the place class with the key "place_map"
         current_place = self.place_map.opening_place()
@@ -40,22 +39,43 @@ class Map:
         "entry_room": entry_room.entry_room,
         "tree_room": tree_room_.tree_room,
         "tree_in_tree_room": tree_room_.tree_in_tree_room,
-        #"table_room": table_room.TableRoom(),
-        #"table_room_far_side": table_room.TableRoomFarSide(),
-        #"table_room_skeleton": table_room.TableRoomSkeleton(),
-        #"troll_room": troll_room.TrollRoom(),
-        #"kobold_room": kobold_room.KoboldRoom(),
-        #"dragon_room": dragon_room.DragonRoom(),
-        #"corridor": corridor.Corridor(),
-        #"riddle_room": riddle_room.RiddleRoom(),
+        "table_room": table_room.table_room,
+        "table_room_far_side": table_room.table_room_far_side,
+        "table_room_skeleton": table_room.table_room_skeleton,
+        # "troll_room": troll_room.TrollRoom(),
+        # "kobold_room": kobold_room.KoboldRoom(),
+        # "dragon_room": dragon_room.DragonRoom(),
+        # "corridor": corridor.Corridor(),
+        # "riddle_room": riddle_room.RiddleRoom(),
         "finished": finished.finished,
         "death": death.death
+    }
+
+    imports = {
+        "entry_room": entry_room,
+        "tree_room": tree_room_,
+        "table_room": table_room,
+        # "troll_room": troll_room.TrollRoom(),
+        # "kobold_room": kobold_room.KoboldRoom(),
+        # "dragon_room": dragon_room.DragonRoom(),
+        # "corridor": corridor.Corridor(),
+        # "riddle_room": riddle_room.RiddleRoom(),
+        "finished": finished,
+        "death": death
     }
 
     def __init__(self, start_place):
         self.start_place = start_place
 
     def next_place(self, place_name):
+
+        # try:
+        #     fred = Map.imports.get(place_name)
+        #     import fred
+
+        # except:
+        #     pass
+
         val = Map.places.get(place_name)
         return val
 

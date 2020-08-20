@@ -1,7 +1,6 @@
 import place_and_items
 from textwrap import dedent
 from random import randint
-from game import players_stuff
 
 class TableRoomSkeleton(place_and_items.Place):
 
@@ -10,9 +9,9 @@ class TableRoomSkeleton(place_and_items.Place):
         if self._visited is not True:
             self._visited = True
 
-            if players_stuff.weapon is not None:
+            if place_and_items.players_stuff.weapon is not None:
                 print(dedent(f"""
-                You grip your {players_stuff.weapon} just in case as you step closer to the skeleton. In a quiet 
+                You grip your {place_and_items.players_stuff.weapon} just in case as you step closer to the skeleton. In a quiet 
                 voice, you call out 'hello!'. The silence is heavy. You step forward again and repeat 'hello!'. 
                 For a second, you start to relax. Then all of a sudden, the skeleton jumps to its feet, its own sword
                 drawn! Do you stand and fight?
@@ -32,13 +31,13 @@ class TableRoomSkeleton(place_and_items.Place):
                         answer = answer + char
 
             if answer in place_and_items.yes_answers:
-                if players_stuff.weapon is not None:
+                if place_and_items.players_stuff.weapon is not None:
                     die = randint(1, 3)
                     if die == 1:
                         print(dedent("""
                         The skeleton runs at you, sword drawn, at the last second, you manage to parry the attack,
                         but the skeleton is quick. You keep parrying its blows, but it keeps delivering them. You 
-                        eventually begin to tire, and the skeleton makes a slash. It makes contact. You fall, and see
+                        eventually begin to tire, and the skelet   on makes a slash. It makes contact. You fall, and see
                         the skeleton looking over you with his sword ready to plunge into your heart.
                         """))
                         return "death"
@@ -81,12 +80,11 @@ class TableRoomSkeleton(place_and_items.Place):
 class TableRoomFarSide(place_and_items.Place):
 
     def enter(self):
-        import game
 
-        print("What do you do?")
+        if self._visited is False:
+            self._visited = True
 
-        if self.visited is False:
-            self.visited = True
+            print("What do you do?")
 
             raw_answer = input("> ").lower()
             answer = ""
@@ -112,7 +110,10 @@ class TableRoomFarSide(place_and_items.Place):
                     why I came here in the first place. Take these, on the condition that you release me from this existence'
                     Do you take the gifts?
                     """))
-
+                    #I want to do a bit of text analysis here. I want to separate the dialogue so that the player can
+                    #say what they want to. If it's friendly, then Nigellus will offer them the gifts, if it's not, he
+                    #will attack.
+                    #I'm going to look for some text analysis packages like those that exist in R.
                     raw_answer = input("> ").lower()
                     answer = ""
                     for char in raw_answer:
@@ -120,8 +121,8 @@ class TableRoomFarSide(place_and_items.Place):
                             answer = answer + char
 
                     if answer in place_and_items.yes_answers:
-                        players_stuff.add_gold(10)
-                        players_stuff.weapon = "a gleaming longsword"
+                        place_and_items.players_stuff.add_gold(10)
+                        place_and_items.players_stuff.weapon = "a gleaming longsword"
                         TableRoom.skeleton_alive = False
                         print(dedent("""
                         You take the gleaming longsword and the gold from Nigellus. You thank him for the gifts, and look 
@@ -144,11 +145,11 @@ class TableRoomFarSide(place_and_items.Place):
                     return "finished"
 
                 elif answer in place_and_items.personal_answers:
-                    players_stuff.query_all_things()
+                    place_and_items.players_stuff.query_all_things()
                     return "table_room_far_side"
 
                 elif answer in place_and_items.companion_answers:
-                    players_stuff.who_with()
+                    place_and_items.players_stuff.who_with()
                     return "table_room_far_side"
 
                 else:
@@ -161,11 +162,11 @@ class TableRoomFarSide(place_and_items.Place):
                     return "table_room"
 
                 elif answer in place_and_items.personal_answers:
-                    players_stuff.query_all_things()
+                    place_and_items.players_stuff.query_all_things()
                     return "table_room_far_side"
 
                 elif answer in place_and_items.companion_answers:
-                    players_stuff.who_with()
+                    place_and_items.players_stuff.who_with()
                     return "table_room_far_side"
 
                 else:
@@ -184,11 +185,11 @@ class TableRoomFarSide(place_and_items.Place):
                     answer = answer + char
 
             if answer in place_and_items.personal_answers:
-                players_stuff.query_all_things()
+                place_and_items.players_stuff.query_all_things()
                 return "table_room_far_side"
 
             elif answer in place_and_items.companion_answers:
-                players_stuff.who_with()
+                place_and_items.players_stuff.who_with()
                 return "table_room_far_side"
 
             elif "table" in answer or "eat" in answer or "food" in answer:
@@ -237,17 +238,21 @@ class TableRoom(place_and_items.Place):
         elif "table" in answer or "food" in answer or "feast" in answer or "eat" in answer:
             pass
 
-        elif "door" in answer:
+        elif "door" and "right" in answer:
             pass
 
         elif answer in place_and_items.personal_answers:
-            players_stuff.query_all_things()
+            place_and_items.players_stuff.query_all_things()
             return "table_room"
 
         elif answer in place_and_items.companion_answers:
-            players_stuff.who_with()
+            place_and_items.players_stuff.who_with()
             return "table_room"
 
         else:
             print("Input not recognised")
             return "table_room"
+
+table_room = TableRoom()
+table_room_far_side = TableRoomFarSide()
+table_room_skeleton = TableRoomSkeleton()

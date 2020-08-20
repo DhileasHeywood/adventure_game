@@ -11,9 +11,10 @@ class TreeInTreeRoom(place_and_items.Place):
         if self._visited is not True and self.investigated is not True:
             self._visited = True
             print(dedent("""
-            You've climbed the tree. You've made it all the way to the the top. From here you can see
-            the painting more clearly. One of the branches actually extends towards it. One of the torches on the wall
-            flickers, and you see a glint in the painting. Do you want to investigate?
+            The tree is very old and gnarled, so there are a lot of places to hold onto, making it pretty easy to climb.
+            From the top you can see the painting much more clearly. It's beautiful. One of the branches actually 
+            extends towards it. One of the torches on the wall flickers, and you see a glint in the painting. 
+            Do you want to investigate?
             """))
 
             raw_answer = input("> ").lower()
@@ -27,10 +28,11 @@ class TreeInTreeRoom(place_and_items.Place):
                 print(dedent("""
                 You carefully climb along the branch, which gets narrower as you get closer to the wall.
                 You reach as far as you thing you can get, close enough to touch the wall. You notice that a portion of
-                the wall has been carved out over an area of treasure, and replaced with gold! You take the gold, and
-                climb back along the branch to safety. You glance back at the painting one last time, and climb back
+                the wall has been carved out over an area of treasure, and replaced with actual gold! You take the gold, 
+                and climb back along the branch to safety. You glance back at the painting one last time, and climb back
                 down the tree.
                 """))
+                # put in an option here. do they want to stay in the tree?
                 return "tree_room"
 
             elif answer in place_and_items.no_answers:
@@ -61,7 +63,7 @@ class TreeInTreeRoom(place_and_items.Place):
                 if char not in place_and_items.punctuations:
                     answer = answer + char
 
-            if "glint" in answer or "investigate" in answer:
+            if "glint" in answer or "investigate" in answer or "branch" in answer:
                 self.investigated = True
                 place_and_items.players_stuff.add_gold(30)
                 print(dedent("""
@@ -162,14 +164,14 @@ class TreeRoom(place_and_items.Place):
             You walk up to the door on the left. You turn the handle, fully expecting it to be locked.
             To your surprise, it opens easily. You step through.
             """))
-            return "table_room_skeleton"
+            return "table_room"
 
         # elif "right" in answer:
         #    pass
 
         elif "tree" in answer:
             print(dedent("""
-            You go up to the tree. You look at it for a second, and think to yourself 'I can climb that'. So you do.
+            You go up to the tree. You look at it for a second, and think to yourself 'I can climb that'. So you do. Why not?
             """))
             return "tree_in_tree_room"
 
